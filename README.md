@@ -4,8 +4,6 @@
 
 This project sets up a containerised monitoring stack on AWS EC2 using Prometheus, Grafana, and Node Exporter. A custom Node.js application exposes application-level metrics via the `prom-client` library, which Prometheus scrapes alongside Linux system metrics from Node Exporter. Grafana visualises both.
 
-This is a continuation of the StegHub DevOps project series, building on the IaC and CI/CD foundations from earlier labs.
-
 ---
 
 ## Architecture
@@ -80,6 +78,8 @@ The app tracks a custom counter `http_requests_total` with labels for `method`, 
 
 `prom-client` also collects default Node.js runtime metrics automatically: heap memory usage, event loop lag, garbage collection stats, and active handles.
 
+<img width="1366" height="768" alt="visualization" src="https://github.com/user-attachments/assets/8bae8a70-4c14-4481-9af9-3969e0b32c8b" />
+
 ---
 
 ## Prometheus Configuration
@@ -149,6 +149,8 @@ All ports restricted to a single IP — no public exposure.
 - AMI: Ubuntu Server 22.04 LTS
 - Instance type: t3.medium
 - Configure security group as above
+  
+<img width="1366" height="768" alt="intance created" src="https://github.com/user-attachments/assets/07bb192d-95a4-49c8-938f-83a09d807534" />
 
 ### 2. Install Docker
 
@@ -165,12 +167,16 @@ sudo usermod -aG docker ubuntu
 newgrp docker
 ```
 
+<img width="1366" height="768" alt="docker and dockercompose" src="https://github.com/user-attachments/assets/e6ae62ae-d29b-4e07-bd13-a0fd7d2bdcd8" />
+
+
 ### 3. Clone or create the project structure
 
 ```bash
 mkdir ~/monitoring-lab && cd ~/monitoring-lab
 mkdir app prometheus
 ```
+<img width="1366" height="768" alt="create app and prom" src="https://github.com/user-attachments/assets/3f0903c6-99d0-4c4d-b11b-b8a85d3c63e6" />
 
 Create the files as shown in the project structure above.
 
@@ -185,12 +191,16 @@ docker compose up -d --build
 ```bash
 docker compose ps   # All 4 containers should show Up
 ```
+<img width="1366" height="768" alt="docker compose build" src="https://github.com/user-attachments/assets/00936be5-afd4-4ad6-9e3f-a35200df7125" />
 
 Access:
 - Node.js app: `http://<ec2-ip>:3001`
 - App metrics: `http://<ec2-ip>:3001/metrics`
 - Prometheus: `http://<ec2-ip>:9090` → Status → Targets (all 3 should show UP)
 - Grafana: `http://<ec2-ip>:3000` (admin / admin123)
+<img width="1366" height="768" alt="everthing is running" src="https://github.com/user-attachments/assets/63ed3eab-834a-4ca0-a657-a19320879657" />
+<img width="1366" height="768" alt="scrapingtargets" src="https://github.com/user-attachments/assets/93fe2d8f-a583-422b-8ad0-c2200b5e3077" />
+
 
 ### 6. Generate test traffic
 
@@ -200,6 +210,7 @@ for i in {1..10}; do curl http://localhost:3001/about; done
 ```
 
 Then query `http_requests_total` in Prometheus or view the Grafana dashboard.
+<img width="1366" height="768" alt="http req" src="https://github.com/user-attachments/assets/eedc3f0b-b5b5-4fb0-bf69-748a4fb3bdd0" />
 
 ---
 
@@ -227,16 +238,9 @@ Terminate the EC2 instance from the AWS console to stop billing.
 
 ---
 
-## Related Projects
-
-- [Project 15 — AWS Multi-Tier Architecture with NGINX Reverse Proxy](../Project-15-AWS-Cloud-Solution-For-2-Company-Websites-Using-A-Reverse-Proxy)
-- [Project 16 — Terraform IaC: AWS VPC and Subnet Automation](../Project-16-Automate-Infrastructure-With-IaC-using-Terraform-1)
-
----
 
 ## Author
 
 Lydiah Nganga  
-Cloud & DevOps Engineering — StegHub Academy  
 [GitHub](https://github.com/) · [LinkedIn](https://linkedin.com/in/)# Monitoring With Prometheus and Grafana
 
