@@ -1,4 +1,4 @@
-# Project 17 — Infrastructure Monitoring with Prometheus, Grafana, and Node.js
+# Infrastructure Monitoring with Prometheus, Grafana, and Node.js
 
 ## Overview
 
